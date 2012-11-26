@@ -4,6 +4,14 @@ use utf8;
 
 use POSIX qw(strftime);
 
+=pod
+
+ STUDY:
+   - localtime
+   - POSIX strftime / Time::Piece / DateTime
+
+=cut
+
 my $app = sub {
     my $env = shift;
 

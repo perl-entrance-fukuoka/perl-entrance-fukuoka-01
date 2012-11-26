@@ -7,6 +7,18 @@ use utf8;
  /    ... 入力フォーム表示
  /add ... 足し算結果表示
 
+
+ STUDY:
+   - PSGI env
+   - [Module]->new / [Module/Instance]->[method]
+   - ||
+   - Plack::Request
+   - if/elsif/else
+   - __DATA__ and <DATA>
+
+ TODO:
+   - Plack::Request or $env->{***} ?
+
 =cut
 
 use Plack::Request;
