@@ -23,6 +23,8 @@ use utf8;
 
 use Plack::Request;
 
+my @html = <DATA>;
+
 my $app = sub {
     my $env = shift;
 
@@ -30,7 +32,6 @@ my $app = sub {
     my $path = $req->path;
 
     if ( $path eq '/' ) {
-        my @html = <DATA>;
         return [ 200, [ 'Content-Type' => 'text/html' ], \@html ];
     }
     elsif ( $path eq '/add' ) {
