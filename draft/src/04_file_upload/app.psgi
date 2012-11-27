@@ -88,7 +88,7 @@ sub not_found {
 sub redirect_list {
     my $req = shift;
     return [
-        302, [ 'Location' => $req->uri->scheme . '://' . $req->uri->host_port ],
+        303, [ 'Location' => $req->uri->scheme . '://' . $req->uri->host_port ],
         []
     ];
 }
