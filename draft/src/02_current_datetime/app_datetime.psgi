@@ -9,5 +9,5 @@ my $app = sub {
 
     my $datetime =
       DateTime->now( 'time_zone' => 'local' )->strftime('%Y-%m-%d %H:%M:%S');
-    return [ 200, [ 'Content-Type' => 'text/plain' ], [$datetime], ];
+    return [ 200, [ 'Content-Type' => 'text/plain' ], ['DateTime: ', $datetime], ];
 };

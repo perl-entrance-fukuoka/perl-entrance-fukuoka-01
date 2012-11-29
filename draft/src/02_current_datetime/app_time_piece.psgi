@@ -9,5 +9,5 @@ my $app = sub {
 
     my $t        = localtime;
     my $datetime = $t->strftime('%Y-%m-%d %H:%M:%S');
-    return [ 200, [ 'Content-Type' => 'text/plain' ], [$datetime], ];
+    return [ 200, [ 'Content-Type' => 'text/plain' ], ['Time::Piece: ', $datetime], ];
 };
