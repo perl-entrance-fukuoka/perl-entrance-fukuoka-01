@@ -105,7 +105,7 @@ sub photo_raw {
         $content_type = 'image/png';
     }
     elsif ( $filename =~ /\.jpe?g/ ) {
-        $content_type = 'image/jpg';
+        $content_type = 'image/jpeg';
     }
     elsif ( $filename =~ /\.gif/ ) {
         $content_type = 'image/gif';
