@@ -53,7 +53,7 @@ sub list {
       grep { !/^\./ && -f File::Spec->catfile( UPLOAD_DIR, $_ ) } readdir($dh);
     closedir($dh);
 
-    my $tx = Text::Xslate->new();
+    my $tx = Text::Xslate->new( syntax => 'TTerse' );
     my $html = $tx->render_string( $template, { files => \@files } );
     return [
         200,
@@ -114,9 +114,9 @@ __DATA__
     </form>
     <p>アップロードファイル一覧</p>
     <ul>
-: for $files -> $file {
-      <li><: $file :></li>
-: } # for
+[% FOREACH file in files %]
+      <li>[% file %]</li>
+[% END %]
     </ul>
   </body>
 </html>
