@@ -4,14 +4,6 @@ use utf8;
 
 use Encode qw(encode_utf8);
 
-=pod
-
- STUDY:
-   - use [Module]
-   - Encode
-
-=cut
-
 my $app = sub {
     my $env = shift;
     return [

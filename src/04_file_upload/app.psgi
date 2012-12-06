@@ -2,24 +2,6 @@ use strict;
 use warnings;
 use utf8;
 
-=pod
-
- /       ... アップロードフォーム & アップロードファイル一覧
- /upload ... アップロード実行
-
-
- STUDY:
-   - File::Spec
-   - File::Basename
-   - function
-   - grep
-   - opendir/readdir/closedir
-
- TODO:
-   - Text::Xslate ?
-
-=cut
-
 use File::Spec;
 use File::Basename;
 use constant UPLOAD_DIR => File::Spec->catdir( dirname(__FILE__), 'data' );

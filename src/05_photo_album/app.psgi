@@ -2,21 +2,6 @@ use strict;
 use warnings;
 use utf8;
 
-=pod
-
- /
- /upload
- /photo/[name]
- /photo/[name]/raw
-
- STUDY:
-   - Data::Section::Simple
-   - File::stat
-
- TODO:
-
-=cut
-
 use File::Spec;
 use File::Basename;
 use constant UPLOAD_DIR => File::Spec->catdir( dirname(__FILE__), 'data' );
