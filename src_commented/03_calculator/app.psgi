@@ -48,7 +48,9 @@ my $app = sub {
     if ( $path eq '/' ) {
         # ifは後に続く式(この場合は「$path eq '/'」)が真(成立)の場合に、以降の
         # ブロックを実行します。eqはequalの略で文字列が等しければ真になります。
+
         return [ 200, [ 'Content-Type' => 'text/html' ], \@html ];
+        # 数値を足し算する為のフォームを表示します。
     }
     elsif ( $path eq '/add' ) {
         # elsifはifの条件判断が偽(不成立)の場合に、続けて条件判断を行う際に使用します。
@@ -62,12 +64,20 @@ my $app = sub {
         # undef 未定義値(初期かされていない変数など)
         # ""    空文字列 (長さが0の文字列)
         # ()    空の配列
+        
         my $y = $req->param('y') || 0;
+        
         my $result = $x + $y;
+        # + は左辺値と右辺値を数値として評価し加算します。足し算します。
+        
         return [ 200, [ 'Content-Type' => 'text/plain' ], [$result] ];
+        # 計算結果を表示します。
     }
     else {
+        # elseはifやelsifなどいずれの条件も成立しなかった場合に実行されます。
+
         return [ 404, [ 'Content-Type' => 'text/plain' ], ['Not Found'] ];
+        # パスが/でも/addでも無い場合、はページが存在しない旨を表示します。
     }
 };
 
