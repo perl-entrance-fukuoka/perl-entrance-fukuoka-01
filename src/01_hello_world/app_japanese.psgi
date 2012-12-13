@@ -9,6 +9,6 @@ my $app = sub {
     return [
         200,
         [ 'Content-Type' => 'text/plain; charset=UTF-8' ],
-        [ encode_utf8('こんにちは、世界') ],
+        [ encode_utf8('perl入学式福岡へようこそ') ],
     ];
 };
