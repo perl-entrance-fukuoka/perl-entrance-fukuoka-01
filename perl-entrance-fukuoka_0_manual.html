@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Perl入学式 in 福岡 : 環境構築手順 | 2012/12/08</title>
+    <meta charset='utf-8'>
+  </head>
+ 
+  <style>
+    article {
+        border-bottom:1px solid;
+    }
+    th,td{
+        border:1px solid;
+    }
+    pre {
+        background-color:#ffffcc;
+    }
+  </style>
+
+
+  <body>
+
+    <section class='slides .layout-widescreen template-custom'>
+      <article>
+        <h1>
+          Perl入学式 in 福岡
+          <br>
+          環境構築手順
+        </h1>
+      </article>
+
+      <article>
+        <h3>
+          目次
+        </h3>
+        <ul class="build">
+          <li>
+            Perl入学式 in 福岡 での環境構築について
+          </li>
+          <li>
+            VirtualBox のインストール
+          </li>
+          <li>
+            Perl入学式用 仮想アプライアンス(イメージ) の読み込みと起動
+          </li>
+          <li>
+            設定と起動
+          </li>
+          <li>
+            起動後の確認
+          </li>
+          <li>
+            perlbrew のインストール
+          </li>
+          <li>
+            perlbrew で perl-5.16.2 をインストール
+          </li>
+          <li>
+            cpanm のインストール
+          </li>
+          <li>
+            Plack のインストール
+          </li>
+        </ul>
+      </article>
+
+      <article>
+        <h3>
+          Perl入学式 in 福岡 での環境構築について
+        </h3>
+        <p>
+            各 OS 毎に環境構築する方法はありますが、 今回は次にあげる目的のため VirtualBox に Linux (CentOS) を準備し構築します。
+        </p>
+        <ul class="build">
+          <li>
+            どの OS をご利用のかたも同じ手順をおこなっていただくため
+          </li>
+          <li>
+            みなさんのPC環境を極力汚さないようにするため
+          </li>
+          <li>
+            実際にWebのサービスを公開するような場合、 Linuxサーバを利用することが多いため
+          </li>
+        </ul>
+      </article>
+
+      <article>
+        <h3>
+            VirtualBox のインストール
+        </h3>
+        <p>
+            <dl>
+                <dt>
+                    インストーラー
+                </dt>
+                <dd>
+                    ダウンロード先：
+                </dd>
+                <dd>
+                    <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">
+                        https://www.virtualbox.org/wiki/Downloads
+                    </a>
+                </dd>
+            </dl>
+        <p>
+        <div class="build">
+            <p>
+                今回は、USBメモリで配布します。
+            </p>
+            <p>
+                OSによってインストール方法が異なりますが、<br>
+                インストーラーを起動し、あとは手順にそって行ってください。
+            </p>
+        </div>
+      </article>
+
+      <article>
+        <h3>
+            Perl入学式用 仮想アプライアンス(イメージ) の読み込みと起動
+        </h3>
+        <dl>
+            <dt>
+                Perl入学式用のLinux (CentOS)の入ったイメージとなります。
+            </dt>
+            <dd>
+                ダウンロード先：
+            </dd>
+            <dd>
+                <a href="https://dl.dropbox.com/u/1981687/perl-entrance-fukuoka-20121208.ova" target="_blank">
+                    https://dl.dropbox.com/u/1981687/perl-entrance-fukuoka-20121208.ova
+                </a>
+            </dd>
+        </dl>
+        <div class="build">
+            <p>
+                こちらも、先程のVirtualBoxインストーラーの同様に、USBメモリで配布です。
+            </p>
+            <p>
+                参照先：<a href="https://cacoo.com/diagrams/CrhHlSCC7FfQS4b5" target="_blank">
+                    https://cacoo.com/diagrams/CrhHlSCC7FfQS4b5
+                </a>
+            </p>
+        </div>
+      </article>
+      <article>
+        <h3>
+            設定と起動
+        </h3>
+        <p>
+            <dl>
+                <dt>
+                ネットワーク設定確認 
+                </dt>
+                <dd>
+                    上部メニューにある「Vartual」内の「環境設定」を開きます。
+                </dd>
+                <dd>
+                    ネットワークを開きます。
+                </dd>
+                <dd>
+                    ホストオンリーネットワークが空となっているので、横にある「+」の付いたボタンを二回クリック
+                </dd>
+                <dd>
+                    vboxnet1が出来たら選択し、ドライバアイコンをクリック
+                </dd>
+                <dd>
+                    IPv4アドレスに「192.168.33.1」を入力
+                </dd>
+            </dl>
+            起動します。
+        </p>
+      </article>
+
+      <article>
+        <h3>
+            起動後の確認
+        </h3>
+        SSH でログインします。
+        <section>
+            <pre>ssh student@192.168.33.10</pre>
+        </section>
+        <table style="background-color:rgba(255,255,255,0.5);">
+            <tr>
+                <th>login</th>
+                <th>password</th>
+            </tr>
+            <tr>
+                <td class="red">student</td>
+                <td class="red">usestrict</td>
+            </tr>
+            <tr>
+                <td>root</td>
+                <td>vagrant</td>
+            </tr>
+        </table>
+      </article>
+
+      <article>
+        <h3>
+            perlbrew のインストール
+        </h3>
+        <p>
+        perlbrew とは複数のバージョンのperlをインストールし簡単に切り替えられるアプリケーションです。
+        </p>
+        <section>
+        <pre>[student@localhost ~]$ curl -kL http://install.perlbrew.pl | bash
+[student@localhost ~]$ source ~/perl5/perlbrew/etc/bashrc
+[student@localhost ~]$ echo 'source ~/perl5/perlbrew/etc/bashrc' &gt;&gt; ~/.bashrc
+[student@localhost ~]$ tail ~/.bashrc</pre>
+        </section>
+        <div class="build">
+            <div>
+                最後の行に
+            </div>
+        </div>
+        <section class="build"><pre># User specific aliases and functions
+source ~/perl5/perlbrew/etc/bashrc</pre>
+        </section>
+        <div class="build">
+            <div>
+                があるか確認してください
+            </div>
+        </div>
+      </article>
+
+      <article>
+        <h3>
+            perlbrew で perl-5.16.2 をインストール（１）
+        </h3>
+        <p>
+            perlbrewでインストールできるperlのバージョンの最新を確認
+        </p>
+        <section>
+            <pre>[student@localhost ~]$ perlbrew available</pre>
+        </section>
+        <section class="build">
+            <pre>  perl-5.17.6
+  perl-5.16.2
+  perl-5.14.3
+  perl-5.12.5
+  perl-5.10.1
+  perl-5.8.9
+  perl-5.6.2
+  perl5.005_04
+  perl5.004_05
+  perl5.003_07</pre>
+        </section>
+      </article>
+      <article>
+        <h3>
+            perlbrew で perl-5.16.2 をインストール（２）
+        </h3>
+        <ul class="build">
+            <li>
+                perl-5.17.6があるのですが、perlのメジャーバージョンと呼ばれるのは、
+                主に「5.x.x」の二番目の数字が[偶数番号]のものが安定したバージョンとなります。
+            </li>
+            <li>
+                ですので、今回はメジャーバージョンの中でも最新版となるperl-5.16.2をインストールします。
+            </li>
+        </ul>
+      </article>
+      <article>
+        <h3>
+            perlbrew で perl-5.16.2 をインストール（３）
+        </h3>
+        <p>
+            perl-5.16.2 をインストール
+        </p>
+        <section>
+            <pre>[student@localhost ~]$ perlbrew -v -n install perl-5.16.2</pre>
+        </section>
+        <ul class="build">
+            <li>
+                「-v」は「--verbose」詳細な結果の表示
+            </li>
+            <li>
+                「-n」は「--notest」テストを行わない
+            </li>
+            <li>
+                今回は時間の都合上テストを行わないっていません。
+            </li>
+            <li>
+                テストを行わなくても、十分ぐらいの時間がかかります。
+            </li>
+        </ul>
+      </article>
+      <article>
+        <h3>
+            perlbrew で perl-5.16.2 をインストール（４）
+        </h3>
+        <section class="build">
+            <pre>[student@localhost ~]$ which perl
+/usr/bin/perl</pre>
+            <pre>[student@localhost ~]$ perl -v
+This is perl, v5.10.1 (*) built for x86_64-linux-thread-multi
+
+Copyright 1987-2009, Larry Wall
+
+Perl may be copied only under the terms of either the Artistic License or the
+GNU General Public License, which may be found in the Perl 5 source kit.
+
+Complete documentation for Perl, including FAQ lists, should be found on
+this system using "man perl" or "perldoc perl".  If you have access to the
+Internet, point your browser at http://www.perl.org/, the Perl Home Page.</pre>
+        </section>
+      </article>
+
+      <article>
+        <h3>
+            perlbrew で perl-5.16.2 をインストール（５）
+        </h3>
+        <section class="build">
+        <pre>[student@localhost ~]$ perlbrew list
+  perl-5.16.2</pre>
+        <pre>[student@localhost ~]$ perlbrew switch perl-5.16.2
+[student@localhost ~]$ perl -v
+This is perl 5, version 16, subversion 2 (v5.16.2) built for x86_64-linux
+
+Copyright 1987-2012, Larry Wall
+
+Perl may be copied only under the terms of either the Artistic License or the
+GNU General Public License, which may be found in the Perl 5 source kit.
+
+Complete documentation for Perl, including FAQ lists, should be found on
+this system using "man perl" or "perldoc perl".  If you have access to the
+Internet, point your browser at http://www.perl.org/, the Perl Home Page.</pre>
+            <pre>[student@localhost ~]$ which perl
+~/perl5/perlbrew/perls/perl-5.16.2/bin/perl</pre>
+        </section>
+      </article>
+
+      <article>
+        <h3>
+            cpanm のインストール
+        </h3>
+        <p>
+            Perlのモジュールやその他のPerlで書かれたソフトウェアを集めた巨大なアーカイブであるCPAN、世界中のCPAN Author達によって、日々、大小さまざまなモジュールが登録されています。
+        </p>
+        <p>
+            そのCPANにあるモジュールをインストールするのにとても便利なcpanmをインストールします。
+        </p>
+            <ul class="build">
+                <li>
+                    標準のcpanコマンドよりも便利なコマンドです。
+                </li>
+                <li>
+                    cpanmも自体もCPAN上で<a href="http://search.cpan.org/dist/App-cpanminus/" target="_blank">App::cpanminus</a>として配布されています。
+                </li>
+                <li>
+                    CPAN Authorは、@miyagawaさん。
+                </li>
+      </article>
+
+      <article>
+        <h3>
+            cpanm のインストール
+        </h3>
+        <p>
+            cpanコマンドで入れることができるのですが、perlbrewには便利なコマンドが実はあります。
+        </p>
+        <section class="build">
+        <pre>[student@localhost ~]$ perlbrew install-cpanm</pre>
+<pre>[student@localhost ~]$ cpanm --version
+cpanm (App::cpanminus) version 1.5018</pre>
+      </article>
+
+      <article>
+        <h3>
+            Plack のインストール
+        </h3>
+        <div class="build">
+            <p>
+                Plackとは、PSGIでウェブアプリケーションをかく時にその手助けとなるライブラリ群です。<br>
+            </p>
+            <p>
+                PSGIとは、Perl Web Server Gateway Interfaceの略で、ウェブアプリケーションとアプリケーションサーバーをつなぐ仕様です。
+            </p>
+        </div>
+        <section class="build">
+        <pre>[student@localhost ~]$ cpanm -v Plack</pre>
+        <pre>[student@localhost ~]$ perldoc Plack</pre>
+        </section>
+      </article>
+      <article class='smaller'>
+        <h3>
+            参考サイト
+        </h3>
+            <p>
+                <a href="https://github.com/perl-entrance-fukuoka/dev-env-vbox/blob/master/docs/user-manual.md" target="_brank">環境構築手順 - Perl入学式 in 福岡 </a>
+            </p>
+            <p>
+                <a href="http://gihyo.jp/dev/serial/01/perl-hackers-hub/000101" target="_brank">
+                    第1回　PSGI/Plack―フレームワークとサーバをつなぐエンジン （1）</a><br>
+                <a href="http://gihyo.jp/dev/serial/01/perl-hackers-hub/000102" target="_brank">
+                    第1回　PSGI/Plack―フレームワークとサーバをつなぐエンジン　（2）<br>
+                <a href="http://gihyo.jp/dev/serial/01/perl-hackers-hub/000103" target="_brank">
+                    第1回　PSGI/Plack―フレームワークとサーバをつなぐエンジン　（3）</a><br>
+            </p>
+      </article>
+
+      <article>
+        <h3>
+            終わり
+        </h3>
+            <p>
+                環境構築手順は終わりです。ありがとうございました。
+            </p>
+      </article>
+  </body>
+</html>
