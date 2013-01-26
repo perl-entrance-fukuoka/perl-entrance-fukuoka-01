@@ -9,7 +9,7 @@ use LWP::Simple;
 use XML::RSS;
 
 my $template = join( '', <DATA> );
-my $uri = 'http://rss.dailynews.yahoo.co.jp/fc/rss.xml';
+my $uri = 'http://yahoo.co.jp';
 
 my $app = sub {
     my $env = shift;
@@ -35,12 +35,9 @@ sub list {
     if( is_error($doc) );
 
   my $rss = XML::RSS->new; 
-  eval{
-    $rss->parse($doc);
-  };
-  if($@){
-    return server_error("connot xml rss parse $uri \n $@");
-  }
+
+  $rss->parse($doc);
+
   my $tx = Text::Xslate->new( syntax => 'TTerse' );
   my $html = $tx->render_string( $template, { items => $rss->{items} } );
   return [
