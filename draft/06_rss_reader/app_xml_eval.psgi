@@ -9,7 +9,7 @@ use LWP::Simple;
 use XML::RSS;
 
 my $template = join( '', <DATA> );
-my $uri = 'http://rss.dailynews.yahoo.co.jp/fc/rss.xml';
+my $uri = 'http://www.yahoo.co.jp';
 
 my $app = sub {
     my $env = shift;
