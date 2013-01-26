@@ -47,14 +47,6 @@ sub not_found {
     return [ 404, [ 'Content-Type' => 'text/plain' ], ['Not Found'] ];
 }
 
-sub redirect_list {
-    my $req = shift;
-    return [
-        303, [ 'Location' => $req->uri->scheme . '://' . $req->uri->host_port ],
-        []
-    ];
-}
-
 sub server_error {
     my $reason = shift || '';
     return [
