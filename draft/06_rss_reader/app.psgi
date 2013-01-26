@@ -10,6 +10,8 @@ use XML::RSS;
 
 my $template = join( '', <DATA> );
 my $uri = 'http://rss.dailynews.yahoo.co.jp/fc/rss.xml';
+#$uri = 'http://www.yahoo.co.jp';
+#$uri = 'http://www.itoken417.com';
 
 my $app = sub {
     my $env = shift;
@@ -27,12 +29,20 @@ my $app = sub {
 
 sub list {
   my $uri = shift;
-  my $doc = LWP::Simple::get($uri)
-    or server_error("cannot get content from $uri");
+ 
+  my $doc = LWP::Simple::get($uri) 
+    or return server_error("cannot get content from $uri");
 
-  my $rss = XML::RSS->new;
-  $rss->parse($doc);
+  return server_error("status error from $uri") 
+    if( is_error($doc) );
 
+  my $rss = XML::RSS->new; 
+  eval{
+    $rss->parse($doc);
+  };
+  if($@){
+    return server_error("connot xml rss parse $uri \n $@");
+  }
   my $tx = Text::Xslate->new( syntax => 'TTerse' );
   my $html = $tx->render_string( $template, { items => $rss->{items} } );
   return [
@@ -67,7 +77,7 @@ __DATA__
     <p>RSS</p>
     <ul>
       [% FOREACH item in items %]
-        <li><a href="[% item.link %]">[% item.title %]</a></li>
+        <li><a href="[% item.link %]">[% item.title %]</a>[% item.pubDate  %]</li>
       [% END %]
     </ul>
   </body>
